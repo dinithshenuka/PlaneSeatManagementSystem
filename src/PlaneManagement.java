@@ -4,6 +4,8 @@ import java.util.Scanner;
 public class PlaneManagement{
     private static Scanner input = new Scanner(System.in);
 
+    private static Ticket[][] ticketsSold = new Ticket[4][14];
+
     // menu (Triggered from the main method)
     public static void menu(){
         System.out.println("\n"+"-".repeat(45));
@@ -26,7 +28,7 @@ public class PlaneManagement{
             try {
                 System.out.print("Enter the row (A-D): ");
                 String rowLetter = input.next().toUpperCase();
-                System.out.print("Enter seat number to cancel (1-" + (seatsArray[rowLetter.charAt(0) - 'A'].length) + "): ");
+                System.out.print("Enter seat number to buy (1-" + (seatsArray[rowLetter.charAt(0) - 'A'].length) + "): ");
                 int columnNumber = input.nextInt();
 
                 int rowNumber = rowLetter.charAt(0) - 'A';
@@ -53,7 +55,7 @@ public class PlaneManagement{
 
                         Person person = new Person(name, surname, email);
                         Ticket ticket = new Ticket(rowLetter, columnNumber, price, person);
-                        addTicketToArray(ticket);
+                        ticketsSold[rowNumber][columnNumber - 1] = ticket;
                         ticket.save();
                     } else {
                         System.out.println("\nSeat is already taken. Please try again.");
@@ -85,7 +87,7 @@ public class PlaneManagement{
                     if (seatsArray[rowIndex][columnNumber - 1] == 1) {
                         seatsArray[rowIndex][columnNumber - 1] = 0;
 
-                        removeTicketFromArray(rowLetter,columnNumber);
+                        ticketsSold[rowIndex][columnNumber - 1] = null;
 
                         System.out.println("\nSeat cancelled successfully!");
                         seatCancelled = true;
@@ -140,13 +142,15 @@ public class PlaneManagement{
         }
     }
 
-    // task 10
+   // task 10
     public static void printAllTickets() {
         double price = 0;
         for(int i=0 ; i <= ticketsSold.length-1; i++) {
-            if (ticketsSold[i] != null) {
-                System.out.println(ticketsSold[i].print_tickets_info());
-                price = price + ticketsSold[i].getPrice();
+            for (int j = 0; j <= ticketsSold[i].length-1; j++) {
+                if (ticketsSold[i][j] != null){
+                    System.out.println(ticketsSold[i][j].print_tickets_info());
+                    price = price + ticketsSold[i][j].getPrice();
+                }
             }
         }
         System.out.println("Total Price : £"+ price);
@@ -163,24 +167,18 @@ public class PlaneManagement{
             int rowIndex = rowLetter.charAt(0) - 'A';
             if (rowIndex >= 0 && rowIndex < seatsArray.length && columnNumber > 0 && columnNumber <= seatsArray[rowIndex].length) {
                 if (seatsArray[rowIndex][columnNumber - 1] == 1) {
-
-                    for (int i = 0; i < ticketsSold.length; i++) {
-                        if (ticketsSold[i] != null && ticketsSold[i].getRow().equals(rowLetter) && ticketsSold[i].getSeat() == columnNumber) {
-                            System.out.println("\nTicket Found:");
-                            ticketsSold[i].printInfo();
-                            return;
-                        }
-                    }
-                    System.out.println("Seat is occupied, but ticket information not found.");
+                    Ticket ticket = ticketsSold[rowIndex][columnNumber - 1];
+                    System.out.println("\nTicket Found!");
+                    ticket.printInfo();
                 } else {
-                    System.out.println("This seat is available.");
+                    System.out.println("\nThis seat is available.");
                 }
             } else {
-                System.out.println("Invalid seat number.");
+                System.out.println("\nInvalid seat number. Please try again.");
             }
         } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
-        System.out.println("Invalid input. Please try again");
-        search_ticket(seatsArray);
+            System.out.println("\nInvalid input. Please try again");
+            input.nextLine();
         }
     }
 
@@ -195,32 +193,6 @@ public class PlaneManagement{
             price = 180;
         }
         return price;
-    }
-
-    private static Ticket[] ticketsSold = new Ticket[52];
-
-    // Triggered from buy seat method
-    public static void addTicketToArray(Ticket ticket) {
-        Ticket[] ticketArray = new Ticket[ticketsSold.length+1];
-        for (int i=0; i<=ticketsSold.length-1 ; i++) {
-            ticketArray[i] = ticketsSold[i];
-        }
-        ticketArray[ticketArray.length-1] = ticket;
-        ticketsSold = ticketArray;
-    }
-    
-    //Triggered from cancel seat method
-    public static void removeTicketFromArray(String row, int seat) {
-        Ticket[] ticketArray = new Ticket[ticketsSold.length];
-        int j = 0;
-        for (int i = 0; i <= ticketArray.length - 1; i++) {
-            if (ticketArray[i] != null && ticketArray[i].getRow().equals(row) && ticketArray[i].getSeat() == seat) {
-                continue;
-            }
-            ticketArray[j] = ticketsSold[i];
-            j++;
-        }
-        ticketsSold = ticketArray;
     }
 
     // welcome and option menu
