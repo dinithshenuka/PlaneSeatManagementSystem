@@ -66,7 +66,6 @@ public class PlaneManagement{
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
                 System.out.println("\nInvalid input. Please try again");
                 input.nextLine();
-                continue;
             }
         } while (!SeatPurchased);
     }
@@ -89,10 +88,16 @@ public class PlaneManagement{
 
                         ticketsSold[rowIndex][columnNumber - 1] = null;
 
+                        Ticket.delete(rowLetter,columnNumber);
+
                         System.out.println("\nSeat cancelled successfully!");
                         seatCancelled = true;
                     } else {
-                        System.out.println("\nSeat is already available. Please try again.");
+                        System.out.println("\nSeat is already available. Enter '1' to try again or '0' to abort.");
+                        int selection = input.nextInt();
+                        if (selection == 0){
+                            break;
+                        }
                     }
                 } else {
                     System.out.println("\nInvalid seat number. Please try again.");
@@ -100,7 +105,6 @@ public class PlaneManagement{
             }catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
                 System.out.println("\nInvalid input. Please try again");
                 input.nextLine();
-                continue;
             }
         } while (!seatCancelled);
     }

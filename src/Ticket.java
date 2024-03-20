@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -51,6 +52,18 @@ public class Ticket {
             System.out.println("Error saving ticket information: " + e.getMessage());
         }
     }
+
+    // delete saved files (Triggered from cancel seat method)
+    public static void delete(String row, int seat) {
+        String filename = row + seat + ".txt";
+        File file = new File(filename);
+        if (file.delete()) {
+            System.out.println("Ticket information deleted from file: " + filename);
+        } else {
+            System.out.println("Error deleting ticket information file: " + filename);
+        }
+    }
+
 
     // Triggered from search ticket method
     public void printInfo() {
