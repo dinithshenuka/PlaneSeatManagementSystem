@@ -9,7 +9,7 @@ public class PlaneManagement{
     // menu (Triggered from the main method)
     public static void menu(){
         System.out.println("\n"+"-".repeat(45));
-        System.out.println("-".repeat(10) + " ".repeat(5) + "MENU OPTIONS" + " ".repeat(8) + "-".repeat(10));
+        System.out.println("-".repeat(10) + " ".repeat(6) + "MENU OPTIONS" + " ".repeat(7) + "-".repeat(10));
         System.out.println("-".repeat(45));
         System.out.println("\n1) Buy a seat");
         System.out.println("2) Cancel a seat");
@@ -26,7 +26,7 @@ public class PlaneManagement{
         boolean SeatPurchased = false;
         do {
             try {
-                System.out.print("Enter the row (A-D): ");
+                System.out.print("\nEnter the row (A-D): ");
                 String rowLetter = input.next().toUpperCase();
                 System.out.print("Enter seat number to buy (1-" + (seatsArray[rowLetter.charAt(0) - 'A'].length) + "): ");
                 int columnNumber = input.nextInt();
@@ -76,7 +76,7 @@ public class PlaneManagement{
 
         do {
             try {
-                System.out.print("Enter the row (A-D) to cancel: ");
+                System.out.print("\nEnter the row (A-D) to cancel: ");
                 String rowLetter = input.next().toUpperCase();
                 System.out.print("Enter seat number to cancel (1-" + (seatsArray[rowLetter.charAt(0) - 'A'].length) + "): ");
                 int columnNumber = input.nextInt();
@@ -132,6 +132,8 @@ public class PlaneManagement{
 
     // task 6
     public static void show_seating_plan(int[][] seatsArray) {
+        System.out.println(" ");
+        System.out.println("-".repeat(10)+ " ".repeat(5)+ "Seating Plan" + " ".repeat(5) + "-".repeat(10));
         System.out.println("\n  1  2  3  4  5  6  7  8  9 10 11 12 13 14");
         for (int i = 0; i < seatsArray.length; i++) {
             System.out.printf("%c ", 'A' + i);
@@ -163,7 +165,7 @@ public class PlaneManagement{
     // task 11
     public static void search_ticket(int[][] seatsArray) {
         try {
-            System.out.print("Enter the row (A-D) to search: ");
+            System.out.print("\nEnter the row (A-D) to search: ");
             String rowLetter = input.next().toUpperCase();
             System.out.print("Enter seat number to search (1-" + (seatsArray[rowLetter.charAt(0) - 'A'].length) + "): ");
             int columnNumber = input.nextInt();
@@ -232,9 +234,13 @@ public class PlaneManagement{
 
             switch (option) {
                 case 1:
+                    System.out.println(" ");
+                    System.out.println("-".repeat(10)+ " ".repeat(5)+ "Buy a seat" + " ".repeat(5) + "-".repeat(10));
                     buy_seat(seatsArray);
                     break;
                 case 2:
+                    System.out.println(" ");
+                    System.out.println("-".repeat(10)+ " ".repeat(5)+ "Cancel a seat" + " ".repeat(5) + "-".repeat(10));
                     cancel_seat(seatsArray);
                     break;
                 case 3:
@@ -247,6 +253,8 @@ public class PlaneManagement{
                     printAllTickets();
                     break;
                 case 6:
+                    System.out.println(" ");
+                    System.out.println("-".repeat(10)+ " ".repeat(5)+ "Search ticket" + " ".repeat(5) + "-".repeat(10));
                     search_ticket(seatsArray);
                     break;
                 case 0:
